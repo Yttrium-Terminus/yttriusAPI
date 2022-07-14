@@ -1,0 +1,46 @@
+/// An extension of a std stream
+includes std -> STD@IO
+includes yttriustd -> YTT@STD.IO
+
+@def(unknown_level)
+
+dyn const general_out stream -> ..;
+
+dyn op -> hash_table;
+
+family: {
+    visible:
+        i32 serial_id = 0x03;
+        i32 default_alloc = 2048;
+        auto<[]> stream;
+    ([]:stream) {
+        ((..)stream) = stream // cast the current stream to the one in the family bc of the same naming, there are no direct "this" keyword as ".." always refer to the current struct scope
+        op.inset((i32) stream.get(REQUESTABLE))
+        default_alloc = op.len
+    }
+
+    ui8 read() {
+        ui8[] l = sizeto MAX;
+        stream as audible [i64 i = 0; i++] -> {
+            l[i] = audible.get(i);
+        }
+        return l
+    }
+
+    bool_o close() {
+        stream = null_ptr;
+        return yttrius::std::master::compiler -> shrinks(stream)
+    }
+}, buffer_style;
+
+define "->"(first) { // define an operator to assign
+    for first as iterable_table :
+        buffer_style -> i64(iterable_table[64 & first[0x01]])
+        stream.for_each_byte(()::default_locale_)
+}
+
+nsp filstream {
+    (vis: _GLOBAL_STL)
+    $#("->") : #family as #const
+    $this : (..)
+}

@@ -109,3 +109,8 @@
 .gitattributes export-ignore
 .gitignore     export-ignore
 .gitkeep       export-ignore
+*.yxh linguist-language=C++
+*.ypp linguist-language=C++
+*.yxp linguist-language=C++
+*.yxx linguist-language=C++
+*.yttrius linguist-language=Elixir

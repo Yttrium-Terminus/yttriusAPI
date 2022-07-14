@@ -1,0 +1,33 @@
+/// This is a main standard header that is imported automatically by the compiler if needed
+/// Requires 1.6 or above to run.
+@def(yxx_GLOBAL_COMPILER_FLAGS)
+
+imports {
+    yttrius->std->compiler->master->enum_h,
+    yttrius->std->compiler->master->type_h,
+    yttrius->std->compiler->master->value_h,
+    yttrius->std->compiler->rules->default
+}
+
+@macro str -> char[]
+
+nsp:GLOBAL_STL {
+    // Set of rules a ENUM follows and tells the compiler
+
+    typedef G lvalue_t;
+    std->compile::capture_style(() => {
+        [std::object_n]:str =: "0", // sets the default object naming to 0
+        [std::value_h]:G =: nullptr_t, // sets the default value handler to nullptr_t
+    })
+
+    // accepts any kind of types
+    enum_h.accepts((str, G) => {
+        [],
+        [],
+    })
+
+    // .. refers to the current nsp global and it's rules
+    std->compile::new_rules((..) -> {
+        COMPILER::new_SET = ["a...z" , "A...Z" , "0...9" , "_"] // accepted naming conventions 
+    })
+};
